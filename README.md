@@ -11,3 +11,4 @@
     * Analytics de tweets: términos que dan más impresiones, temas que cuando se mencionen en los tweets dan más impresiones, mejores horas para twittear, ¿si se menciona a alguien en el tweet recibimos más impresiones? ¿mejores usuarios para mencionar?
     * Analystics de Twitter en general: temas relevantes en la plataforma, tweets más relevantes de X usuarios durante los últimos tantos días, ¿qué gente se lleva bien con otra? ¿grafo de conexiones con alguna métrica sobre cómo de positiva es una persona con otra? e.g. las interacciones o comentarios del Perro sobre Abascal suelen ser negativos y se mencionan mucho entre sí.
     * Predicción de tweet óptimo.
+* Aplicación integrada en un bot de Telegram que recibe links de YouTube, los transcribe y luego se puede acceder a ellos y solicitar resúmenes y consultas de algún tipo. Incluso, que descargue los vídeos, los guarde en una base de datos y puedan solicitarse más adelante.
