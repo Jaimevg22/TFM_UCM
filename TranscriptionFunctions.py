@@ -33,27 +33,27 @@ def get_model() -> tuple: #Devuelve el modelo, el procesador, el dispositivo y e
 # You are transcribing batches of long audio files, in which case the latency of sequential is comparable to chunked, 
 # while being up to 0.5% WER more accurate
 
-def transcribe_audio_slf(ytaudio : Audio) -> None:
+# def transcribe_audio_slf(ytaudio : Audio) -> None:
     
-    if not ytaudio.downloaded:
-        raise Exception("Audio file not downloaded")
+#     if not ytaudio.downloaded:
+#         raise Exception("Audio file not downloaded")
     
-    model, processor, device, torch_dtype = get_model()
+#     model, processor, device, torch_dtype = get_model()
 
-    pipe = pipeline(
-        "automatic-speech-recognition",
-        model=model,
-        tokenizer=processor.tokenizer,
-        feature_extractor=processor.feature_extractor,
-        max_new_tokens=128,
-        torch_dtype=torch_dtype,
-        device=device,
-        return_timestamps=True
-    )
+#     pipe = pipeline(
+#         "automatic-speech-recognition",
+#         model=model,
+#         tokenizer=processor.tokenizer,
+#         feature_extractor=processor.feature_extractor,
+#         max_new_tokens=128,
+#         torch_dtype=torch_dtype,
+#         device=device,
+#         return_timestamps=True
+#     )
 
-    result = pipe(ytaudio.audio_path)
+#     result = pipe(ytaudio.audio_path)
     
-    ytaudio.update_transcription(result)
+#     ytaudio.update_transcription(result)
 
 # 2. Chunked long-form
 # large-v3 remains compatible with the Transformers chunked long-form algorithm. 
@@ -62,7 +62,7 @@ def transcribe_audio_slf(ytaudio : Audio) -> None:
 # sequential long-form implementation (see Table 7 of the Distil-Whisper paper).
 # To enable chunking, pass the chunk_length_s parameter to the pipeline. For distil-large-v3, a chunk length of 25-seconds is optimal.
 
-def transcribe_audio_clf(ytaudio : Audio) -> None:
+def transcribe_audio(ytaudio : Audio) -> None:
     
     if not ytaudio.downloaded:
         raise Exception("Audio file not downloaded")
