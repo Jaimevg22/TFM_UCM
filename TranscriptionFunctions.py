@@ -33,7 +33,7 @@ def get_model() -> tuple: #Devuelve el modelo, el procesador, el dispositivo y e
 # You are transcribing batches of long audio files, in which case the latency of sequential is comparable to chunked, 
 # while being up to 0.5% WER more accurate
 
-def transcribe_audio_slf(ytaudio : Audio) -> str:
+def transcribe_audio_slf(ytaudio : Audio) -> None:
     
     if not ytaudio.downloaded:
         raise Exception("Audio file not downloaded")
@@ -62,7 +62,7 @@ def transcribe_audio_slf(ytaudio : Audio) -> str:
 # sequential long-form implementation (see Table 7 of the Distil-Whisper paper).
 # To enable chunking, pass the chunk_length_s parameter to the pipeline. For distil-large-v3, a chunk length of 25-seconds is optimal.
 
-def transcribe_audio_clf(ytaudio : Audio) -> str:
+def transcribe_audio_clf(ytaudio : Audio) -> None:
     
     if not ytaudio.downloaded:
         raise Exception("Audio file not downloaded")
