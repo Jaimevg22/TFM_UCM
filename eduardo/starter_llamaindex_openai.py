@@ -12,7 +12,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings, SimpleDirectoryReader, VectorStoreIndex, StorageContext, load_graph_from_storage
 
-api_key = "sk-3FZTo5iM5Ch0w4yOjE8-zq4NHGmIR7MWTUCd0MIXuKT3BlbkFJ3b28Vv3B6YNmg_7BK1fkAld1Mw9cuvnis6LdzXYsMA"
+api_key = "PONER LA TUYA"
 
 llm_model = OpenAI(
     model='gpt-3.5-turbo',
