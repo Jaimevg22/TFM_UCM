@@ -8,8 +8,6 @@ Created on Fri Aug  9 12:10:23 2024
 
 # !pip install llama-index
 # !pip install llama-index-embeddings-huggingface
-
-# no sé si era necesario
 # !pip install llama-index-llms-ollama
 
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
