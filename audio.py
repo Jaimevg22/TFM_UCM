@@ -46,14 +46,15 @@ class AudioEngine:
             batch_size=16,
             torch_dtype=torch_dtype,
             device=device,
-            return_timestamps=True
+            return_timestamps=False
         )
         
-        result = pipe(audio.audio_path)
+        result = pipe(audio.audio_path)["text"]
         AudioEngine.update_transcription(audio, result)
 
     @staticmethod
     def initialize_audio(audio: Audio) -> None:
+        print(audio.folder_path)
         # Check if the folder exists
         if not os.path.exists(audio.folder_path):
             os.makedirs(audio.folder_path)  # Create the folder if it doesn't exist
