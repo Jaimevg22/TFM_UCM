@@ -56,14 +56,15 @@ class AudioEngine:
     def initialize_audio(audio: Audio) -> None:
         print(audio.folder_path)
         # Check if the folder exists
-        if not os.path.exists(f"{audio.folder_path}/documents"):
-            os.makedirs(f"{audio.folder_path}/documents")
         if not os.path.exists(audio.folder_path):
             os.makedirs(audio.folder_path)  # Create the folder if it doesn't exist
             
             # Create the file that saves the URL
             with open(f"{audio.folder_path}/{audio.folder_name}.txt", "w") as url_file:
                 url_file.write(audio.url)
+
+            if not os.path.exists(f"{audio.folder_path}/documents"):
+                os.makedirs(f"{audio.folder_path}/documents")
         else:
             # Read the saved URL
             folder_url = open(f"{audio.folder_path}/{audio.folder_name}.txt", "r").read()
