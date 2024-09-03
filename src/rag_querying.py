@@ -29,10 +29,10 @@ def create_query_engine_from_directory(directory_path: str) -> VectorStoreIndex:
     return query_engine
 
 
-def setup_qa_model(embedding_model: str, 
-                   ollama_model: str, 
-                   tokenizer: str, 
-                   model: str, 
+def setup_qa_model(embedding_model: str="", 
+                   ollama_model: str="", 
+                   tokenizer: str="", 
+                   model: str="", 
                    context_window: int=2048, 
                    max_new_tokens: int=256, 
                    temperature: float=0.1,

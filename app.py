@@ -1,9 +1,10 @@
-from audio import Audio, AudioEngine
-from rag_querying import *
+from src.audio import Audio, AudioEngine
+from src.rag_querying import *
 
 # Step 1: Create an Audio object for a specific YouTube video
+AudioEngine.initialize_directories()
 youtube_url = "https://www.youtube.com/watch?v=5eB7yBA0utM"  # Replace with actual YouTube video URL
-audio = Audio(folder_name="MongoDB", url=youtube_url)
+audio = Audio(file_name="MongoDB", url=youtube_url)
 
 # Step 2: Initialize the audio object (creates folder, checks existing files, etc.)
 AudioEngine.initialize_audio(audio)
@@ -21,11 +22,10 @@ except Exception as e:
 print(audio.transcription)
 
 # Step 6: Set up vector store and query the model for question answering
-directory_path = audio.folder_path
+directory_path = audio.transcription_path
+query_engine = create_query_engine_from_directory(directory_path=directory_path)
+setup_qa_model(tokenizer="tinyllama-tokenizer", model="tinyllama-model")
 query = "¿Qué ha sucedido con MongoDB?"
-results = main(directory_path, query)
+results, _ = query_vector_store(index=query_engine, query=query)
 
-# Step 7: Save model answer for later analysis
-with open(f"WORK_DIR/responses/{query[:20]}.txt", "w") as response_file:
-    for item in results:
-        response_file.write(f"{item}\n")
+print(results)
