@@ -1,69 +1,77 @@
-import os
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
-from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.llms.ollama import Ollama
+from llama_index.llms.hugginface import HuggingFaceLLM
+import torch
 
-# Step 1: Load documents from the directory
-def load_documents_from_directory(directory_path):
-    # Using SimpleDirectoryReader to read all text files in the directory
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("GPU is available")
+else:
+    device = torch.device("cpu")
+    print("GPU is not available, using CPU")
+
+device = torch.device("cuda")
+
+
+def create_query_engine_from_directory(directory_path: str) -> VectorStoreIndex:
+    """
+    Returns a query engine attached to a vector store
+
+    Args:
+        directory_path (str): Path to the directory with the documents.
+    """
     reader = SimpleDirectoryReader(directory_path)
     documents = reader.load_data()
-    return documents
-
-# Step 2: Create the vector store index using Llama Index
-def create_vector_store(documents):
     index = VectorStoreIndex.from_documents(documents)
-    return index
+    query_engine = index.as_query_engine()
+    print(f"[+] Loaded {len(documents)} docs from {directory_path}")
+    return query_engine
 
-# Step 3: Load a model and tokenizer from Hugging Face for question answering
-def load_qa_model(model_name="deepset/roberta-base-squad2"):
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForQuestionAnswering.from_pretrained(model_name)
-    qa_pipeline = pipeline("question-answering", model=model, tokenizer=tokenizer)
-    return qa_pipeline
 
-# Step 4: Query the vector store for relevant documents
+def setup_qa_model(embedding_model: str, 
+                   ollama_model: str, 
+                   tokenizer: str, 
+                   model: str, 
+                   context_window: int=2048, 
+                   max_new_tokens: int=256, 
+                   temperature: float=0.1,
+                   tokenizer_kwargs: dict={"max_length": 512},
+                   model_kwargs: dict={"torch_dtype": torch.float16},
+                   ollama_opt: bool=False) -> None:
+    """
+    Sets up the models used for question answering in llama- index Settings.
+
+    Args:
+        embedding_model (str): Embedding model from HuggingFace.
+        ollama_model (str): Model passed to Ollama.
+        tokenizer (str): Tokenizer name for HuggingFaceLLM.
+        model (str): Model used for HuggingFaceLLM.
+        context_window (int): The maximum number of tokens available for input.
+        max_new_tokens (int): The maximum number of tokens to generate.
+        temperature (float): Model variability.
+        tokenizer_kwargs (dict): kwargs for the HuggingFace tokenizer.
+        model_kwargs (dict): kwargs for the HuggingFaceLLM model.
+        ollama_opt (bool): True for embedding + ollama; False for HuggingFaceLLM.
+    """
+    if ollama_opt:
+        Settings.embed_model = HuggingFaceEmbedding(model_name=embedding_model)
+        # Importante: installar ollama y levantar el modelo que quieras usar por linea de comandos (https://github.com/ollama/ollama?tab=readme-ov-file)
+        Settings.llm = Ollama(model=ollama_model, request_timeout=360.0, device_map=device)
+    else:
+        Settings.llm = HuggingFaceLLM(
+            context_window=context_window,
+            max_new_tokens=max_new_tokens,
+            generate_kwargs={"temperature": temperature, "do_sample": False},
+            tokenizer_name=tokenizer,
+            model_name=model,
+            tokenizer_kwargs=tokenizer_kwargs,
+            model_kwargs=model_kwargs
+        )
+
 def query_vector_store(index, query):
+    """
+    Queries the vector store.
+    """
     response = index.query(query)
-    return response
-
-# Step 5: Extract specific information using the Hugging Face QA model
-def extract_information(qa_pipeline, query, documents):
-    answers = []
-    for doc in documents:
-        context = doc.text
-        answer = qa_pipeline(question=query, context=context)
-        answers.append(answer['answer'])
-    return answers
-
-# Main Function
-def main(directory_path, query):
-    # Load documents from directory 
-    documents = load_documents_from_directory(directory_path)
-    print("Documents loaded")
-    
-    # Create vector store index
-    index = create_vector_store(documents)
-    print("Vector store created")
-    
-    # Load the Hugging Face model and tokenizer for QA
-    qa_pipeline = load_qa_model()
-    print("QA model loaded")
-    
-    # Query the vector store
-    relevant_docs = query_vector_store(index, query)
-    print("Vector store queried")
-    
-    # Extract specific information from relevant documents
-    extracted_info = extract_information(qa_pipeline, query, relevant_docs)
-    
-    print("Extracted Information:")
-    for idx, info in enumerate(extracted_info):
-        print(f"Answer {idx+1}: {info}")
-
-    return extracted_info
-
-# Example usage
-if __name__ == "__main__":
-    directory_path = "path/to/your/documents"
-    query = "Your question here"
-    main(directory_path, query)
+    return response.response, response.metadata
