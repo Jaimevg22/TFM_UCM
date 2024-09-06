@@ -73,5 +73,18 @@ def query_vector_store(index, query):
     """
     Queries the vector store.
     """
-    response = index.query(query)
+    prompt =f'''Tienes acceso a transcripciones de videos de youtube.
+            Se te hará una pregunta y debes responder basándote exclusivamente en la información proporcionada en las transcripciones. Si no puedes responder la pregunta utilizando estos datos, indica que la información no está disponible.
+
+            Responde de manera educada, estructurada y concisa cuando corresponda. Si la pregunta requiere una respuesta breve, sé claro y directo. Asegúrate de:
+
+            No inventar información adicional ni suponer nada que no esté claramente expresado en las transcripciones.
+            Responder solo utilizando la información proporcionada, sin hacer inferencias más allá del contenido.
+            Estructurar la respuesta de manera clara y fácil de entender.
+            Mantener un tono respetuoso y profesional en todo momento.
+            
+            PREGUNTA:
+            {query}
+            '''
+    response = index.query(prompt)
     return response.response, response.metadata
