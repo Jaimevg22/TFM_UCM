@@ -1,6 +1,7 @@
 import os
+from typing import Tuple
 
-def update_data() -> None:
+def update_data():
     carpeta_data = r"data"
     carpeta_documentos = r"data/documentos"
     os.makedirs(carpeta_data, exist_ok=True)
@@ -17,7 +18,7 @@ def get_id_from_video_url(video_url : str) -> str:
 def get_video_url_from_id(id_video : str) -> str:
     return f"https://www.youtube.com/watch?v={id_video}"
 
-def comprobar_estado_clase(video_url : str) -> tuple[bool, bool]:
+def comprobar_estado_clase(video_url : str) -> Tuple[bool, bool]:
     id_video = get_id_from_video_url(video_url)
 
     _, clases_descargadas, clases_transcritas = update_data()
