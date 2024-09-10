@@ -17,9 +17,8 @@ st.set_page_config(
     page_icon=":material/home:"  # Cambia el ícono de la pestaña
 )
 
-home_tab, control_tab, chat_tab = st.tabs(["Descarga y Transcripción", "Videos Descargados", "Chat Bot"])
 
-AudioEngine.initialize_directories()
+home_tab, control_tab, chat_tab = st.tabs(["Descarga y Transcripción", "Videos Descargados", "Chat Bot"])
 
 with home_tab:
     home_page()

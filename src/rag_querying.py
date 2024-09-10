@@ -1,7 +1,8 @@
+import os
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.ollama import Ollama
-from llama_index.llms.hugginface import HuggingFaceLLM
+from llama_index.llms.huggingface import HuggingFaceLLM
 import torch
 
 if torch.cuda.is_available():
@@ -21,12 +22,13 @@ def create_query_engine_from_directory(directory_path: str) -> VectorStoreIndex:
     Args:
         directory_path (str): Path to the directory with the documents.
     """
-    reader = SimpleDirectoryReader(directory_path)
-    documents = reader.load_data()
-    index = VectorStoreIndex.from_documents(documents)
-    query_engine = index.as_query_engine()
-    print(f"[+] Loaded {len(documents)} docs from {directory_path}")
-    return query_engine
+    if os.listdir(directory_path):
+        reader = SimpleDirectoryReader(directory_path)
+        documents = reader.load_data()
+        index = VectorStoreIndex.from_documents(documents)
+        query_engine = index.as_query_engine()
+        print(f"[+] Loaded {len(documents)} docs from {directory_path}")
+        return query_engine
 
 
 def setup_qa_model(embedding_model: str="", 
