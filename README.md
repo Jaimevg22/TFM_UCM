@@ -1,14 +1,46 @@
-# Ideas
+# TFM_UCM
 
-* Filtrado de catálogos buscando ofertas o items concretos.
-* Reconocimiento de teto en documento de baja calidad y modificación de palabras o caracteres con el mismo estilo.
-* Software general de llamadas.
-* transcribir y resumir o esquematizar audio, filtrando por temática de interés.
-* Generar dibujo con estilo concreto, introduciendo estilo, y descripción o boceto.
-* chatbot con temática concreta
-* Aplicación que le metas url de un tweet y acceda a traves de api de twitter a las menciones y respuestas de ese twit, y te dé un informe de esos twitts, análisis de sentimiento (47% de las menciones son positivas), temas mmas mencionados en las respuestas,...
-  * Análisis de tweets.
-    * Analytics de tweets: términos que dan más impresiones, temas que cuando se mencionen en los tweets dan más impresiones, mejores horas para twittear, ¿si se menciona a alguien en el tweet recibimos más impresiones? ¿mejores usuarios para mencionar?
-    * Analystics de Twitter en general: temas relevantes en la plataforma, tweets más relevantes de X usuarios durante los últimos tantos días, ¿qué gente se lleva bien con otra? ¿grafo de conexiones con alguna métrica sobre cómo de positiva es una persona con otra? e.g. las interacciones o comentarios del Perro sobre Abascal suelen ser negativos y se mencionan mucho entre sí.
-    * Predicción de tweet óptimo.
-* Aplicación integrada en un bot de Telegram que recibe links de YouTube, los transcribe y luego se puede acceder a ellos y solicitar resúmenes y consultas de algún tipo. Incluso, que descargue los vídeos, los guarde en una base de datos y puedan solicitarse más adelante.
+TFM_UCM is a master's final project application that allows you to download audio from YouTube videos, transcribe the audio using OpenAI's Whisper AI, and then query across multiple transcriptions using a Retrieval-Augmented Generation (RAG) system powered by Llama Index. This project integrates several advanced technologies to provide a seamless experience for managing and querying transcriptions.
+
+## Features
+
+- **Download Audio**: Extract audio from YouTube videos.
+- **Transcribe Audio**: Convert audio to text using Whisper AI.
+- **Query Transcriptions**: Perform searches and queries across multiple transcriptions using RAG with Llama Index.
+- **User Interface**: Access all features through a user-friendly interface built with Streamlit.
+
+## Installation Guide
+
+To get started with TFM_UCM, follow these steps:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/TFM_UCM.git
+   cd TFM_UCM
+   ```
+
+2. **Create and Activate the Conda Environment**
+
+   Ensure you have [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) installed. Create the Conda environment from the provided `environment.yml` file:
+
+   ```bash
+   conda env create -f environment.yml
+   ```
+
+   Activate the environment:
+
+   ```bash
+   conda activate TFM_UCM
+   ```
+
+3. **Run the Application**
+
+   Start the Streamlit application from the repo's directory:
+
+   ```bash
+   streamlit run frontend.py
+   ```
+
+   This will launch the web application, allowing you to interact with the various features.
+
