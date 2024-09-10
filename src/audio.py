@@ -135,6 +135,7 @@ class AudioEngine:
         else:
             # Read the saved URL
             file_url = open(f"{audio.folder_path}/{audio.file_name}.txt", "r").read()
+            print("[+] file url found:", file_url)
             
             # If the saved URL is different from the current URL
             if file_url != audio.url:
@@ -144,10 +145,13 @@ class AudioEngine:
             # Update audio path if the file exists
             if os.path.exists(f"{audio.folder_path}/{audio.file_name}.m4a"):
                 AudioEngine.update_audio_path(audio)
+                print("[+] audio found, path updated:", audio.audio_path)
                 
             # Update transcription if the file exists
             if os.path.exists(f"{audio.folder_path}/documents/{audio.file_name}.txt"):
-                AudioEngine.update_transcription(audio, pickle.load(open(f"{audio.folder_path}/documents/{audio.file_name}.txt", "rb")))
+                audio.transcribed = True
+                AudioEngine.update_transcription(audio, open(f"{audio.folder_path}/documents/{audio.file_name}.txt", "r").read())
+                print("[+] file was transcribed, trascription was:", audio.transcription)
 
 
     @staticmethod
@@ -171,15 +175,17 @@ class AudioEngine:
             audio (Audio): The audio object to update.
             transcription (str): The transcription text to be saved.
         """
-        audio.transcription = transcription
         audio.transcription_path = f"{audio.folder_path}/documents/{audio.file_name}.txt"
 
-        # Write the transcription to a .txt file
-        with open(audio.transcription_path, "w") as transcription_file:
-            transcription_file.write(transcription)
-        
-        audio.transcribed = True
-        print(f"Transcription written to {audio.transcription_path}")
+        if audio.transcribed:
+            audio.transcription = transcription
+        else:
+            # Write the transcription to a .txt file
+            with open(audio.transcription_path, "w") as transcription_file:
+                transcription_file.write(transcription)
+            
+            audio.transcribed = True
+            print(f"Transcription written to {audio.transcription_path}")
 
 
     @staticmethod
