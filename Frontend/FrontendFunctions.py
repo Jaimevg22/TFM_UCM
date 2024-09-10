@@ -1,9 +1,10 @@
 import os
 from typing import Tuple
+from src.audio import WORK_DIR
 
 def update_data():
-    carpeta_data = r"data"
-    carpeta_documentos = r"data/documentos"
+    carpeta_data = f"{WORK_DIR}/data"
+    carpeta_documentos = f"{WORK_DIR}/data/documents"
     os.makedirs(carpeta_data, exist_ok=True)
     os.makedirs(carpeta_documentos, exist_ok=True)
     clases_creadas = [archivo.split(".")[0] for archivo in os.listdir(carpeta_data) if archivo.endswith(".txt")]
