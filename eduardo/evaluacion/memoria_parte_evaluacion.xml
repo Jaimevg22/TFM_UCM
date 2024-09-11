@@ -4,45 +4,56 @@
 RAG</paragraph>
  <paragraph index="17" node_type="writer">nombres</paragraph>
  <paragraph index="41" node_type="writer">4. EVALUACIÓN:</paragraph>
- <paragraph index="44" node_type="writer">======================</paragraph>
- <paragraph index="45" node_type="writer">[Aquí comentar los objetivos de la evaluación, por qué es necesario, o lo que sea.]</paragraph>
- <paragraph index="47" node_type="writer">metodología</paragraph>
- <paragraph index="48" node_type="writer">======================</paragraph>
- <paragraph index="51" node_type="writer">a. Tipos de evaluación:</paragraph>
- <paragraph index="53" node_type="writer">LlamaIndex tiene varios módulos destinados a evaluar diversos aspectos del RAG:</paragraph>
- <paragraph index="55" node_type="writer">- Faithfulness: evalúa si una respuesta concuerda con la información de los nodos en los que se ha basado (i.e. alucinaciones).</paragraph>
- <paragraph index="57" node_type="writer">- Relevancy: evalúa si la respuesta + nodos fuente concuerdan con la query. Útil para medir si la query ha sido respondida con la respuesta.</paragraph>
- <paragraph index="59" node_type="writer">- Correctness: evalúa la relevancia y exactitud de una respuesta generada comparándola con una respuesta de referencia.</paragraph>
- <paragraph index="61" node_type="writer">- Semantic: calcula la similaridad entre los embeddings de la respuesta generada y de una respuesta de referencia.</paragraph>
- <paragraph index="63" node_type="writer">- Guidelines: evalúa si en la respuesta generada se están cumpliendo las guidelines especificadas.</paragraph>
- <paragraph index="65" node_type="writer">- Retriever: evalúa un retriever, comparando los documentos que obtiene para cada query dada con los correspondientes documentos de referencia de cada query.</paragraph>
- <paragraph index="68" node_type="writer">======================</paragraph>
- <paragraph index="69" node_type="writer">A parte de los módulos de LlamaIndex, existe una gran variedad de librerías de terceros para este efecto, que ofrecen posibilidades como… para este trabajo nos ceñiremos a los módulos que vienen con LlamaIndex.</paragraph>
- <paragraph index="71" node_type="writer">Métricas.</paragraph>
- <paragraph index="73" node_type="writer">datasets: datasets de llamahub… comentar por qué es bueno usar varios datasets… la ventaja de tener estos datasets… que se puden generar datasets, ventajas… </paragraph>
- <paragraph index="74" node_type="writer">======================</paragraph>
- <paragraph index="77" node_type="writer">c. Descripción del código:</paragraph>
- <paragraph index="79" node_type="writer">Para la evaluación hemos creado tres archivos de código:</paragraph>
- <paragraph index="81" node_type="writer">- dataset_downloader.py: descarga datasets de llamahub destinados a la tarea de evaluación.</paragraph>
- <paragraph index="83" node_type="writer">- eval_batch_multiple_evaluations: ejecuta múltiples evaluadores simultáneamente sobre un modelo.</paragraph>
- <paragraph index="84" node_type="writer">	- definimos la key de OpenAI como una variable de entorno. Esto nos permitirá hacer llamadas a modelos de OpenAI.</paragraph>
- <paragraph index="85" node_type="writer">	- definimos el LLM “gold” que usaremos para evaluar nuestro modelo. En este caso GPT-4 (Tener en cuenta que las llamadas a este modelo son caras con respecto a otros, así que para pruebas podemos usar otros más baratos).</paragraph>
- <paragraph index="86" node_type="writer">	- definimos los evaluadores. Los evaluadores usados en conjunto en este archivo pueden evaluar faithfulness, relevancy, correctness, semantic, y guidelines. Para las guidelines definimos primero las guidelines en un diccionario y a continuación creamos un evaluador por guideline. A todos les pasamos por parámetro el LLM “gold” del paso previo, menos al de semantic, que evalúa similitud entre embeddings y puede pasársele un modelo de embeddings o que coja el que haya en Settings.</paragraph>
- <paragraph index="87" node_type="writer">	- cargamos de un archivo el dataset para evaluación que vayamos a usar, y sus correspondientes documentos. Alternativamente podemos generar un dataset a raíz de unos documentos dados, usando DatasetGenerator.</paragraph>
- <paragraph index="88" node_type="writer">	- del dataset sacamos las queries y las respuestas de refencia. Opcionalmente podemos reducir su número para ahorrar dinero/tiempo en caso de que el dataset sea más grande de lo que queremos.</paragraph>
- <paragraph index="89" node_type="writer">	- definimos el modelo a evaluar.</paragraph>
- <paragraph index="90" node_type="writer">	- inicializamos un BatchEvalRunner con todos los evaluadores, y llamamos a su método aevaluate_queries pasándole nuestro modelo, las queries y las respuestas de referencia, para obtener los resultados de la evaluación.</paragraph>
- <paragraph index="91" node_type="writer">	- analizamos los resultados. Para ello definimos la función get_eval_results, que nos calcula para un evaluador dado, una score como la media de las scores de todas las queries. Podemos también ver resultados de queries concretas para ver otros atributos a parte del score, como por ejemplo el feedback.</paragraph>
- <paragraph index="93" node_type="writer">- eval_retriever: evalúa un retriever.</paragraph>
- <paragraph index="94" node_type="writer">	- definimos la key de OpenAI como una variable de entorno. Esto nos permitirá hacer llamadas a modelos de OpenAI.</paragraph>
- <paragraph index="95" node_type="writer">	- cargamos de un archivo los documentos que vamos a usar.</paragraph>
- <paragraph index="96" node_type="writer">	- creamos los nodos a partir de los documentos, eligiendo el chunk_size que queramos.</paragraph>
- <paragraph index="97" node_type="writer">	- a partir de los nodos, creamos el vector store index y el retriever.</paragraph>
- <paragraph index="98" node_type="writer">	- si queremos, podemos mostrar los resultados de usar el retriever con una query dada.</paragraph>
- <paragraph index="99" node_type="writer">	- definimos el LLM que usaremos para generar un dataset de queries y contextos a partir de los nodos.</paragraph>
- <paragraph index="100" node_type="writer">	- aquí, o bien podemos generar un dataset de parejas de queries y contextos usando la función generate_question_context_pairs, y luego guardarlo en un archivo, o bien podemos cargar dicho dataset de un archivo de uno que hayamos generado y guardado anteriormente. Es muy recomendable generarlos solo una vez y guardarlos, ya que cuesta tiempo y, dependiendo del modelo usado para generarlos, dinero, el generarlos.</paragraph>
- <paragraph index="101" node_type="writer">	- inicializamos el evaluador, pasándole las métricas que queremos y el retriever.</paragraph>
- <paragraph index="102" node_type="writer">	- si queremos podemos obtener los resultados para una query concreta.</paragraph>
- <paragraph index="103" node_type="writer">	- obtenemos los resultados para todo el dataset.</paragraph>
- <paragraph index="104" node_type="writer">	- definimos una función que toma los resultados y nos devuelve un dataframe con la media de los resultados de cada métrica, y la usamos para mostrar los resultados medios de cada métrica.</paragraph>
+ <paragraph index="43" node_type="writer">a. Metodología:</paragraph>
+ <paragraph index="45" node_type="writer">La evaluación del RAG tanto a nivel global como a nivel componente es fundamental para mejorar nuestro sistema, ya que es nuestra forma de medir su rendimiento en diversos aspectos y nuestro objetivo es ir mejorando este rendimiento.</paragraph>
+ <paragraph index="47" node_type="writer">Nuestra estrategia se fundamenta en el uso de los módulos que tiene llamaindex para evaluar diversos aspectos, tanto de las respuestas como de los retrievals, junto con datasets de evaluación, y un modelo “gold”, en este caso GPT-4, que usan estos módulos para evaluar. También hacemos uso de tablas de benchmarks públicos para una primera selección de modelos.</paragraph>
+ <paragraph index="49" node_type="writer">b. Benchmarks públicos:</paragraph>
+ <paragraph index="51" node_type="writer">Son tablas en las que se comparan modelos, a través de algunas de sus características (memoria necesaria, max tokens, etc.), y de los resultados que han obtenido en diversas categorías. Las categorías abarcan aspectos como deducciones lógicas, matemáticas simples, responder a preguntas de contexto general, etc. en el caso de LLMs, y clasificación, clustering, sumarización, etc. en el caso de embeddings. Estas tablas existen tanto para modelos LLM como para modelos de embeddings, y son un buen lugar por donde empezar a evaluar y seleccionar los modelos que vayamos a usar en nuestro sistema según nuestros recursos y nuestras necesidades.</paragraph>
+ <paragraph index="52" node_type="writer">======================</paragraph>
+ <paragraph index="53" node_type="writer">[a lo mejor incluirlos en el anexo, o si no dejar aquí los enlaces]</paragraph>
+ <paragraph index="54" node_type="writer">======================</paragraph>
+ <paragraph index="55" node_type="writer">(https://huggingface.co/spaces/mteb/leaderboard)
+(https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard)</paragraph>
+ <paragraph index="57" node_type="writer">b. Datasets:</paragraph>
+ <paragraph index="59" node_type="writer">Una pieza fundamental para evaluar son los datasets destinados a la evaluación. Estos vienen con un corpus, unas queries, y unas respuestas y/o unos contextos de referencia, dependiendo si son datasets para evaluar las respuestas o el retrieval. Para evaluar se comparan las respuestas o contextos obtenidos con los de referencia del dataset. Se puede tanto descargar datasets variados de llamahub, como generar nuevos datasets a partir de documentos (tarea que se puede automatizar en un pipeline). Hemos usado tanto datasets descargados como generados propios. Es conveniente evaluar con varios datasets de diferentes fuentes y ámbitos para que nuestro sistema sea robusto.</paragraph>
+ <paragraph index="61" node_type="writer">c. Tipos de evaluación usados:</paragraph>
+ <paragraph index="63" node_type="writer">LlamaIndex tiene varios módulos destinados a evaluar diversos aspectos del RAG:</paragraph>
+ <paragraph index="65" node_type="writer">- Faithfulness: evalúa si una respuesta concuerda con la información de los nodos en los que se ha basado (i.e. alucinaciones). Nos devuelve un score que puede ser 1 o 0.</paragraph>
+ <paragraph index="67" node_type="writer">- Relevancy: evalúa si la respuesta + nodos fuente concuerdan con la query. Útil para medir si la query ha sido respondida con la respuesta. Nos devuelve un score que puede ser 1 o 0.</paragraph>
+ <paragraph index="69" node_type="writer">- Correctness: evalúa la relevancia y exactitud de una respuesta generada comparándola con una respuesta de referencia. Nos devuelve un score del 1 al 5, y un feedback en el que explica el resultado de la evaluación.</paragraph>
+ <paragraph index="71" node_type="writer">- Semantic: calcula la similaridad entre los embeddings de la respuesta generada y de una respuesta de referencia.  Nos devuelve un score del 0 al 1, y si pasa el umbral, que por defecto es 0.8.</paragraph>
+ <paragraph index="73" node_type="writer">- Guidelines: evalúa si en la respuesta generada se están cumpliendo las guidelines especificadas. Nos devuelve un score que puede ser 1 o 0, y un feedback en el que explica el resultado de la evaluación.</paragraph>
+ <paragraph index="75" node_type="writer">- Retriever: evalúa un retriever, comparando los documentos que obtiene para cada query dada con los correspondientes documentos de referencia de cada query. Nos devuelve los resultados de las métricas que le indiquemos, que en este caso son hit_rate, mrr, precision, recall, ap, ndcg.</paragraph>
+ <paragraph index="78" node_type="writer">======================</paragraph>
+ <paragraph index="79" node_type="writer">Métricas: si queremos podemos meter un apartado explicando métricas, en vez de comentarlas brevemente en otros apartados. Ocuparía más espacio.</paragraph>
+ <paragraph index="80" node_type="writer">======================</paragraph>
+ <paragraph index="83" node_type="writer">d. Otras posibilidades a considerar:</paragraph>
+ <paragraph index="85" node_type="writer">A parte de los aspectos de la evaluación cubiertos en este trabajo, existen otras posibilidades que se pueden considerar si se quiere extender o mejorar esta parte, como son:</paragraph>
+ <paragraph index="86" node_type="writer">	- librerías de terceros integradas en llamaindex: existe una gran cantidad de librerías de terceros destinadas a la evaluación (UpTrain, DeepEval, etc.), que nos permiten evaluar aún más aspectos (summarization, bias, etc.), automatizar procesos de forma sencilla, ver gráficas, etc.</paragraph>
+ <paragraph index="87" node_type="writer">	- Evaluación del coste del sistema, teniendo en cuenta número de tokens y modelos utilizados.</paragraph>
+ <paragraph index="88" node_type="writer">	- Ensamblado de métricas: se pueden conseguir resultados similares a los que se obtienen usando de un modelo caro como GPT-4 en la evaluación, mediante técnicas de ensamblado de señales más débiles (exact match, F1, ROUGE, BLEU, BERT-NLI and BERT-similarity). Se pueden considerar para tener evaluaciones baratas para un uso más extendido a lo largo del proceso de desarrollo, que nos permita darnos cuenta rápido de cambios en el rendimiento nuestro sistema.</paragraph>
+ <paragraph index="91" node_type="writer">e. Descripción del código:</paragraph>
+ <paragraph index="93" node_type="writer">Para la evaluación hemos creado tres archivos de código:</paragraph>
+ <paragraph index="95" node_type="writer">- dataset_downloader.py: descarga datasets de llamahub destinados a la tarea de evaluación.</paragraph>
+ <paragraph index="97" node_type="writer">- eval_batch_multiple_evaluations: ejecuta múltiples evaluadores simultáneamente sobre un modelo.</paragraph>
+ <paragraph index="98" node_type="writer">	- definimos la key de OpenAI como una variable de entorno. Esto nos permitirá hacer llamadas a modelos de OpenAI.</paragraph>
+ <paragraph index="99" node_type="writer">	- definimos el LLM “gold” que usaremos para evaluar nuestro modelo. En este caso GPT-4 (Tener en cuenta que las llamadas a este modelo son caras con respecto a otros, así que para pruebas podemos usar otros más baratos).</paragraph>
+ <paragraph index="100" node_type="writer">	- definimos los evaluadores. Los evaluadores usados en conjunto en este archivo pueden evaluar faithfulness, relevancy, correctness, semantic, y guidelines. Para las guidelines definimos primero las guidelines en un diccionario y a continuación creamos un evaluador por guideline. A todos les pasamos por parámetro el LLM “gold” del paso previo, menos al de semantic, que evalúa similitud entre embeddings y puede pasársele un modelo de embeddings o que coja el que haya en Settings.</paragraph>
+ <paragraph index="101" node_type="writer">	- cargamos de un archivo el dataset para evaluación que vayamos a usar, y sus correspondientes documentos. Alternativamente podemos generar un dataset a raíz de unos documentos dados, usando DatasetGenerator.</paragraph>
+ <paragraph index="102" node_type="writer">	- del dataset sacamos las queries y las respuestas de refencia. Opcionalmente podemos reducir su número para ahorrar dinero/tiempo en caso de que el dataset sea más grande de lo que queremos.</paragraph>
+ <paragraph index="103" node_type="writer">	- definimos el modelo a evaluar.</paragraph>
+ <paragraph index="104" node_type="writer">	- inicializamos un BatchEvalRunner con todos los evaluadores, y llamamos a su método aevaluate_queries pasándole nuestro modelo, las queries y las respuestas de referencia, para obtener los resultados de la evaluación.</paragraph>
+ <paragraph index="105" node_type="writer">	- analizamos los resultados. Para ello definimos la función get_eval_results, que nos calcula para un evaluador dado, una score como la media de las scores de todas las queries. Podemos también ver resultados de queries concretas para ver otros atributos a parte del score, como por ejemplo el feedback.</paragraph>
+ <paragraph index="107" node_type="writer">- eval_retriever: evalúa un retriever.</paragraph>
+ <paragraph index="108" node_type="writer">	- definimos la key de OpenAI como una variable de entorno. Esto nos permitirá hacer llamadas a modelos de OpenAI.</paragraph>
+ <paragraph index="109" node_type="writer">	- cargamos de un archivo los documentos que vamos a usar.</paragraph>
+ <paragraph index="110" node_type="writer">	- creamos los nodos a partir de los documentos, eligiendo el chunk_size que queramos.</paragraph>
+ <paragraph index="111" node_type="writer">	- a partir de los nodos, creamos el vector store index y el retriever.</paragraph>
+ <paragraph index="112" node_type="writer">	- si queremos, podemos mostrar los resultados de usar el retriever con una query dada.</paragraph>
+ <paragraph index="113" node_type="writer">	- definimos el LLM que usaremos para generar un dataset de queries y contextos a partir de los nodos.</paragraph>
+ <paragraph index="114" node_type="writer">	- aquí, o bien podemos generar un dataset de parejas de queries y contextos usando la función generate_question_context_pairs, y luego guardarlo en un archivo, o bien podemos cargar dicho dataset de un archivo de uno que hayamos generado y guardado anteriormente. Es muy recomendable generarlos solo una vez y guardarlos, ya que cuesta tiempo y, dependiendo del modelo usado para generarlos, dinero, el generarlos.</paragraph>
+ <paragraph index="115" node_type="writer">	- inicializamos el evaluador, pasándole las métricas que queremos y el retriever.</paragraph>
+ <paragraph index="116" node_type="writer">	- si queremos podemos obtener los resultados para una query concreta.</paragraph>
+ <paragraph index="117" node_type="writer">	- obtenemos los resultados para todo el dataset.</paragraph>
+ <paragraph index="118" node_type="writer">	- definimos una función que toma los resultados y nos devuelve un dataframe con la media de los resultados de cada métrica, y la usamos para mostrar los resultados medios de cada métrica.</paragraph>
 </indexing>
