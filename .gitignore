@@ -1,3 +1,5 @@
 *.m4a
 *.txt
 *.pkl
+config.json
+__pycache__

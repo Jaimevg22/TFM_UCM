@@ -2,9 +2,10 @@ import os
 from typing import Tuple
 from src.audio import WORK_DIR
 
+carpeta_data = f"{WORK_DIR}/data"
+carpeta_documentos = f"{WORK_DIR}/data/documents"
+
 def update_data():
-    carpeta_data = f"{WORK_DIR}/data"
-    carpeta_documentos = f"{WORK_DIR}/data/documents"
     os.makedirs(carpeta_data, exist_ok=True)
     os.makedirs(carpeta_documentos, exist_ok=True)
     clases_creadas = [archivo.split(".")[0] for archivo in os.listdir(carpeta_data) if archivo.endswith(".txt")]
@@ -12,6 +13,9 @@ def update_data():
     clases_transcritas = [archivo.split(".")[0] for archivo in os.listdir(carpeta_documentos) if archivo.endswith(".txt")]
 
     return clases_creadas, clases_descargadas, clases_transcritas
+
+def get_url_from_title(title: str) -> str:
+    return open(f"{carpeta_data}/{title}.txt").read()
 
 def get_id_from_video_url(video_url : str) -> str:
     return video_url.split("=")[-1]
@@ -24,8 +28,8 @@ def comprobar_estado_clase(video_url : str) -> Tuple[bool, bool]:
 
     _, clases_descargadas, clases_transcritas = update_data()
 
-    downloaded = id_video + ".m4a" in clases_descargadas
-    transcribed = id_video + ".txt" in clases_transcritas
+    downloaded = title_video + ".m4a" in clases_descargadas
+    transcribed = title_video + ".txt" in clases_transcritas
     
     return downloaded, transcribed
 
