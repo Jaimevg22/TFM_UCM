@@ -1,6 +1,7 @@
 import os
 from typing import Tuple
 from src.audio import WORK_DIR
+from pytubefix import YouTube
 
 carpeta_data = f"{WORK_DIR}/data"
 carpeta_documentos = f"{WORK_DIR}/data/documents"
@@ -24,7 +25,7 @@ def get_video_url_from_id(id_video : str) -> str:
     return f"https://www.youtube.com/watch?v={id_video}"
 
 def comprobar_estado_clase(video_url : str) -> Tuple[bool, bool]:
-    id_video = get_id_from_video_url(video_url)
+    title_video = YouTube(video_url).title
 
     _, clases_descargadas, clases_transcritas = update_data()
 
