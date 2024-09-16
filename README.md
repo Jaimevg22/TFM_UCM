@@ -9,6 +9,33 @@ TFM_UCM is a master's final project application that allows you to download audi
 - **Query Transcriptions**: Perform searches and queries across multiple transcriptions using RAG with Llama Index.
 - **User Interface**: Access all features through a user-friendly interface built with Streamlit.
 
+## File structure
+
+The repository has the following file structure:
+```bash
+.
+├── Frontend                                # Code related to the interface
+│   ├── __init__.py
+│   ├── ChatBotPage.py                      # ChatBot interface
+│   ├── FrontendFunctions.py                # Functions for the interface
+│   ├── HomePage.py                         # Home page interface
+│   └── StoragePage.py                      # Downloaded and transcribed interface
+├── Notebooks                               # Notebooks used for testing
+│   ├── local_llama_base.ipynb
+│   ├── local_llama_test_query_tool.ipynb
+│   └── local_llama_tools_openai.ipynb
+├── src
+│   ├── __init__.py
+│   ├── audio.py                            # Base classes for the backend
+│   ├── rag_querying.py                     # Functions related to RAG functionality
+│   └── TranscriptionFunctions.py           # Functions related to transcription functionality
+├── README.md
+├── config.json                             # File containing work directory path
+├── frontend.py                             # Run this to launch the app
+├── environment_linux.yml                   # Requirements file for Linux
+└── environment.yml                         # Requirements file for Windows
+```
+
 ## Installation Guide
 
 To get started with TFM_UCM, follow these steps:
@@ -34,7 +61,17 @@ To get started with TFM_UCM, follow these steps:
    conda activate TFM_UCM
    ```
 
-3. **Run the Application**
+3. **Install Ollama**
+   
+   Make sure you have [Ollama](https://github.com/ollama/ollama) installed.
+
+4. **Run the Application**
+
+   Start Ollama with Llama3.1 from the bash or Windows Powershell.
+
+   ```bash
+   ollama run llama3.1
+   ```
 
    Start the Streamlit application from the repo's directory:
 
@@ -43,4 +80,3 @@ To get started with TFM_UCM, follow these steps:
    ```
 
    This will launch the web application, allowing you to interact with the various features.
-
