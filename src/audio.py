@@ -5,13 +5,9 @@ from pytubefix import YouTube
 from dataclasses import dataclass, field
 from transformers import pipeline
 from src.TranscriptionFunctions import get_model 
-
-with open("config.json") as config_file:
-    config = json.load(config_file)
     
-WORK_DIR = config["work_dir"]
-
-
+WORK_DIR = os.path.dirname(os.path.abspath(__file__))
+print(WORK_DIR)
 
 @dataclass
 class Audio:
