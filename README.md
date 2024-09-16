@@ -9,31 +9,38 @@ TFM_UCM is a master's final project application that allows you to download audi
 - **Query Transcriptions**: Perform searches and queries across multiple transcriptions using RAG with Llama Index.
 - **User Interface**: Access all features through a user-friendly interface built with Streamlit.
 
-## File structure
+## File Structure
 
 The repository has the following file structure:
+
 ```bash
 .
-├── Frontend                                # Code related to the interface
+├── Frontend                                # Code related to the user interface
 │   ├── __init__.py
 │   ├── ChatBotPage.py                      # ChatBot interface
 │   ├── FrontendFunctions.py                # Functions for the interface
 │   ├── HomePage.py                         # Home page interface
-│   └── StoragePage.py                      # Downloaded and transcribed interface
-├── Notebooks                               # Notebooks used for testing
+│   ├── StoragePage.py                      # Interface for viewing stored transcriptions
+│   └── TestPage.py                         # Test page interface
+├── notebooks                               # Jupyter notebooks for testing and evaluation
+│   ├── eval_batch_multiple_evaluations.ipynb
+│   ├── eval_retriever.ipynb
 │   ├── local_llama_base.ipynb
 │   ├── local_llama_test_query_tool.ipynb
-│   └── local_llama_tools_openai.ipynb
-├── src
-│   ├── __init__.py
-│   ├── audio.py                            # Base classes for the backend
-│   ├── rag_querying.py                     # Functions related to RAG functionality
-│   └── TranscriptionFunctions.py           # Functions related to transcription functionality
-├── README.md
-├── config.json                             # File containing work directory path
-├── frontend.py                             # Run this to launch the app
+│   ├── local_llama_tools_openai.ipynb
+│   ├── starter_llamaindex_local.py
+│   └── starter_llamaindex_openai.py
+├── src                                     # Backend and processing logic
+│   ├── __init__.py
+│   ├── audio.py                            # Audio handling logic
+│   ├── dataset_downloader.py               # Dataset downloading utilities
+│   ├── DownloadFunctions.py                # Functions to download audio from YouTube
+│   ├── rag_querying.py                     # Functions related to RAG and Llama Index querying
+│   └── TranscriptionFunctions.py           # Functions for transcription using Whisper AI
+├── frontend.py                             # Main entry point for running the app with Streamlit
+├── environment.yml                         # Requirements file for Windows/Mac
 ├── environment_linux.yml                   # Requirements file for Linux
-└── environment.yml                         # Requirements file for Windows
+└── README.md                               # Project documentation (this file)
 ```
 
 ## Installation Guide
@@ -55,28 +62,38 @@ To get started with TFM_UCM, follow these steps:
    conda env create -f environment.yml
    ```
 
-   Activate the environment:
+   For Linux systems, use the `environment_linux.yml` file instead:
+
+   ```bash
+   conda env create -f environment_linux.yml
+   ```
+
+   After creating the environment, activate it:
 
    ```bash
    conda activate TFM_UCM
    ```
 
 3. **Install Ollama**
-   
-   Make sure you have [Ollama](https://github.com/ollama/ollama) installed.
 
-4. **Run the Application**
-
-   Start Ollama with Llama3.1 from the bash or Windows Powershell.
+   Install [Ollama](https://github.com/ollama/ollama), which is necessary to run Llama models locally:
 
    ```bash
    ollama run llama3.1
    ```
 
-   Start the Streamlit application from the repo's directory:
+4. **Run the Application**
+
+   Start the Streamlit application from the root directory:
 
    ```bash
    streamlit run frontend.py
    ```
 
-   This will launch the web application, allowing you to interact with the various features.
+   This will launch the web application, allowing you to interact with the YouTube audio downloader, transcription tool, and RAG-based query system.
+
+## Usage
+
+1. **Download Audio**: Input the URL of the YouTube video to download the audio.
+2. **Transcribe Audio**: The app will transcribe the audio using Whisper AI.
+3. **Query Transcriptions**: Use the RAG-based search functionality to query across the transcriptions.
