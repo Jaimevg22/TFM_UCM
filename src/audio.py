@@ -5,9 +5,8 @@ from pytubefix import YouTube
 from dataclasses import dataclass, field
 from transformers import pipeline
 from src.TranscriptionFunctions import get_model 
-from get_workdir import get_workdir
 
-WORK_DIR = os.path.dirname(os.path.abspath(__file__))
+WORK_DIR = "./"
 
 @dataclass
 class Audio:
