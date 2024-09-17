@@ -18,12 +18,6 @@ def update_data():
 def get_url_from_title(title: str) -> str:
     return open(f"{carpeta_data}/{title}.txt").read()
 
-def get_id_from_video_url(video_url : str) -> str:
-    return video_url.split("=")[-1]
-
-def get_video_url_from_id(id_video : str) -> str:
-    return f"https://www.youtube.com/watch?v={id_video}"
-
 def comprobar_estado_clase(video_url : str) -> Tuple[bool, bool]:
     title_video = YouTube(video_url).title
 
@@ -33,8 +27,3 @@ def comprobar_estado_clase(video_url : str) -> Tuple[bool, bool]:
     transcribed = title_video + ".txt" in clases_transcritas
     
     return downloaded, transcribed
-
-
-
-
-

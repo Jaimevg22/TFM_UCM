@@ -5,7 +5,7 @@ from PIL import Image
 import requests
 from pytubefix import YouTube
 import traceback
-from Frontend.FrontendFunctions import update_data, get_id_from_video_url, comprobar_estado_clase
+from Frontend.FrontendFunctions import update_data, comprobar_estado_clase
 
 AudioEngine.initialize_directories()
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from Frontend.FrontendFunctions import update_data, get_id_from_video_url
+from Frontend.FrontendFunctions import update_data
 from src.rag_querying import *
 from src.audio import WORK_DIR
 
@@ -47,34 +47,3 @@ def chat_bot():
             st.markdown(response)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
-
-# def chat_bot():
-
-#     chat_container = st.container(height=300)
-#     prompt = st.chat_input("What is up?")
-
-#     if 'messages' not in st.session_state:
-#         st.session_state.messages = []
-
-#     def responder_chatbot(pregunta):
-#         return "respuesta"
-
-
-#     with st.container():
-#         for msg in st.session_state['messages']:
-#             if msg['role'] == 'user':
-#                 st.write(f"**Tú:** {msg['content']}")
-#             else:
-#                 st.write(f"**Chatbot:** {msg['content']}")
-
-#     with st.container():
-#         user_input = st.text_input("Escribe tu mensaje:")
-
-#         if st.button("Enviar"):
-#             if user_input:
-#                 # Guardar el mensaje del usuario
-#                 st.session_state['messages'].append({"role": "user", "content": user_input})
-                
-#                 # Obtener la respuesta del chatbot
-#                 respuesta = responder_chatbot(user_input)
-#                 st.session_state['messages'].append({"role": "bot", "content": respuesta})

@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Aug 23 15:19:30 2024
-
-@author: eduardocarreroyubero
-"""
-
-
 from llama_index.core.llama_dataset import download_llama_dataset
 
 from llama_index.core.llama_pack import download_llama_pack
@@ -36,11 +27,3 @@ rag_dataset, documents = download_llama_dataset(
 rag_dataset, documents = download_llama_dataset(
     "Llama2PaperDataset", "./eval_data/rag_data/Llama2Paper"
 )
-
-# rag_dataset, documents = download_llama_dataset(
-#     "MiniMtBenchSingleGradingDataset", "./eval_data/rag_data/MtBench"
-# )
-
-# rag_dataset, documents = download_llama_dataset(
-#     "MtBenchHumanJudgementDataset", "./eval_data/rag_data/HumanJudgement"
-# )

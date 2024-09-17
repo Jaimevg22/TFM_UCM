@@ -1,5 +1,5 @@
 import streamlit as st
-from Frontend.FrontendFunctions import update_data, get_video_url_from_id, get_url_from_title
+from Frontend.FrontendFunctions import update_data, get_url_from_title
 from pytubefix import YouTube
 from src.audio import Audio, AudioEngine
 
