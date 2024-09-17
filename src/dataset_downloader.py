@@ -23,8 +23,6 @@ rag_dataset, documents = download_llama_dataset(
 rag_dataset, documents = download_llama_dataset(
     "Llama2PaperDataset", "./eval_data/rag_data/Llama2Paper"
 )
-<<<<<<< HEAD:src/dataset_downloader.py
-=======
 
 # rag_dataset, documents = download_llama_dataset(
 #     "PatronusAIFinanceBenchDataset", "./eval_data/rag_data/FinanceBench"
@@ -37,4 +35,3 @@ rag_dataset, documents = download_llama_dataset(
 # rag_dataset, documents = download_llama_dataset(
 #     "MtBenchHumanJudgementDataset", "./eval_data/rag_data/HumanJudgement"
 # )
->>>>>>> eduardo:eduardo/evaluacion/dataset_downloader.py
