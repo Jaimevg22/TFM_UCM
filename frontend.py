@@ -9,7 +9,7 @@ import os
 from Frontend.HomePage import home_page
 from Frontend.ChatBotPage import chat_bot
 from Frontend.StoragePage import storage_page
-from Frontend.FrontendFunctions import update_data, get_id_from_video_url
+from Frontend.FrontendFunctions import update_data
 
 st.set_page_config(
     page_title="Frontend TFM",  # Cambia el título de la página

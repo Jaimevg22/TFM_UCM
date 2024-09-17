@@ -76,13 +76,19 @@ To get started with TFM_UCM, follow these steps:
 
 3. **Install Ollama**
 
-   Install [Ollama](https://github.com/ollama/ollama), which is necessary to run Llama models locally:
+   Install [Ollama](https://github.com/ollama/ollama), this is necessary to run Llama models locally.
+
+   Next, run the chosen Llama model locally. To do this type the following command in the PowerShell:
 
    ```bash
    ollama run llama3.1
    ```
 
-4. **Run the Application**
+4. **Install FFmpeg**
+
+   Install [FFmpeg](https://ffmpeg.org/download.html) for your operating system.
+
+5. **Run the Application**
 
    Start the Streamlit application from the root directory:
 
