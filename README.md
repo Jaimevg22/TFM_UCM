@@ -15,32 +15,44 @@ The repository has the following file structure:
 
 ```bash
 .
+├── data                                    # Data storage for transcriptions and other files
+│   └── documents                           # Directory for document data
 ├── Frontend                                # Code related to the user interface
-│   ├── __init__.py
-│   ├── ChatBotPage.py                      # ChatBot interface
-│   ├── FrontendFunctions.py                # Functions for the interface
-│   ├── HomePage.py                         # Home page interface
-│   ├── StoragePage.py                      # Interface for viewing stored transcriptions
-│   └── TestPage.py                         # Test page interface
+│   ├── __init__.py
+│   ├── ChatBotPage.py                      # ChatBot interface
+│   ├── FrontendFunctions.py                # Functions for the interface
+│   ├── HomePage.py                         # Home page interface
+│   └── StoragePage.py                      # Interface for viewing stored transcriptions
 ├── notebooks                               # Jupyter notebooks for testing and evaluation
-│   ├── eval_batch_multiple_evaluations.ipynb
-│   ├── eval_retriever.ipynb
-│   ├── local_llama_base.ipynb
-│   ├── local_llama_test_query_tool.ipynb
-│   ├── local_llama_tools_openai.ipynb
-│   ├── starter_llamaindex_local.py
-│   └── starter_llamaindex_openai.py
-├── src                                     # Backend and processing logic
-│   ├── __init__.py
-│   ├── audio.py                            # Audio handling logic
-│   ├── dataset_downloader.py               # Dataset downloading utilities
-│   ├── DownloadFunctions.py                # Functions to download audio from YouTube
-│   ├── rag_querying.py                     # Functions related to RAG and Llama Index querying
-│   └── TranscriptionFunctions.py           # Functions for transcription using Whisper AI
-├── frontend.py                             # Main entry point for running the app with Streamlit
-├── environment.yml                         # Requirements file for Windows/Mac
-├── environment_linux.yml                   # Requirements file for Linux
-└── README.md                               # Project documentation (this file)
+│   ├── eval_batch_multiple_evaluations.ipynb
+│   ├── eval_retriever.ipynb
+│   ├── local_llama_base.ipynb
+│   ├── local_llama_tools_openai.ipynb
+│   └── evaluation                          # Additional evaluation notebooks for various models
+│       ├── eval-plantilla-modelo-embeddings.ipynb # Template to evaluate embeddings model
+│       ├── eval-plantilla-modelo-llm-v2.ipynb     # Template to evaluate llm model
+│       ├── eval-all_mpnet_base_v2.ipynb
+│       ├── eval-gte_qwen2_1_5b_instruct.ipynb
+│       ├── eval-internlm2_chat.ipynb
+│       ├── eval-internlm2.ipynb
+│       ├── eval-llama3_1.ipynb
+│       ├── eval-llama3_1_sauerkraut.ipynb
+│       ├── eval-multi_qa_mpnet_base_dot_v1.ipynb
+│       ├── eval-phi3_14b.ipynb
+│       ├── eval-phi3_3b.ipynb
+│       ├── eval-phi3_5_mini.ipynb
+│       ├── eval-plantilla-modelo-llm-v1.ipynb
+│       └── eval-stella_en_1_5B_v5.ipynb
+├─── src                                     # Backend and processing logic
+│   └── __init__.py
+│   ├── audio.py                            # Audio handling logic
+│   ├── dataset_downloader.py               # Dataset downloading utilities
+│   ├── rag_querying.py                     # Functions related to RAG and Llama Index querying
+│   ├── TranscriptionFunctions.py           # Functions for transcription using Whisper AI
+├── environment_linux.yml                   # Conda environment for Linux systems
+├── environment.yml                         # Conda environment for Windows/Mac
+├── README.md                               # Project documentation (this file)
+└── frontend.py                             # Main entry point for running the app with Streamlit
 ```
 
 ## Installation Guide
@@ -76,9 +88,9 @@ To get started with TFM_UCM, follow these steps:
 
 3. **Install Ollama**
 
-   Install [Ollama](https://github.com/ollama/ollama), this is necessary to run Llama models locally.
+   Install [Ollama](https://github.com/ollama/ollama), which is necessary to run Llama models locally.
 
-   Next, run the chosen Llama model locally. To do this type the following command in the PowerShell:
+   After installation, run the Llama model by typing the following command in your shell:
 
    ```bash
    ollama run llama3.1
@@ -86,7 +98,7 @@ To get started with TFM_UCM, follow these steps:
 
 4. **Install FFmpeg**
 
-   Install [FFmpeg](https://ffmpeg.org/download.html) for your operating system.
+   Install [FFmpeg](https://ffmpeg.org/download.html) for your operating system, which is required for audio extraction.
 
 5. **Run the Application**
 
