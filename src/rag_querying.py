@@ -4,6 +4,14 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.ollama import Ollama
 from llama_index.llms.huggingface import HuggingFaceLLM
 import torch
+import openai
+
+# Si se desea utilizar el modelo de embeddings mencionado en la sección 
+# 4.7.2 se necesita una API key de OpenAI, para ponerla utilizar 
+# la siguiente linea
+# os.environ["OPENAI_API_KEY"] = "your_api_key"
+# Ahora diríjase a la línea 67 y coméntela. Settings.embel_model = .......
+
 
 if torch.cuda.is_available():
     device = torch.device("cuda")
@@ -13,7 +21,6 @@ else:
     print("GPU is not available, using CPU")
 
 device = torch.device("cuda")
-
 
 def create_query_engine_from_directory(directory_path: str) -> VectorStoreIndex:
     """
