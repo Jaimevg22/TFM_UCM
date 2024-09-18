@@ -17,6 +17,10 @@ st.set_page_config(
     page_icon=":material/home:"  # Cambia el ícono de la pestaña
 )
 
+if not os.path.exists(rf"./data"):
+    os.makedirs(rf"./data")  # Create the folder if it doesn't exist
+if not os.path.exists(rf"./data/documents"):
+    os.makedirs(rf"./data/documents")
 
 home_tab, control_tab, chat_tab = st.tabs(["Descarga y Transcripción", "Videos Descargados", "Chat Bot"])
 
