@@ -16,7 +16,13 @@ if 'query_engine' not in st.session_state:
     st.session_state.query_engine = load_query_engine()
     
 def chat_bot():
-
+    st.markdown("""
+        <style>
+        .big-font {
+            font-size:70px !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     chat_container = st.container(height=700)
 
     if st.button("Reload Query Engine"):
@@ -32,7 +38,7 @@ def chat_bot():
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with chat_container.chat_message(message["role"]):
-            st.markdown(message["content"])
+            st.markdown(f'<div class="big-font">{message["content"]}</div>', unsafe_allow_html=True)
 
     # React to user input
     if prompt:
@@ -44,7 +50,7 @@ def chat_bot():
         response, _  = query_vector_store(st.session_state.query_engine, prompt)
         # Display assistant response in chat message container
         with chat_container.chat_message("assistant"):
-            st.markdown(response)
+            st.markdown(f'<div class="big-font">{response}</div>', unsafe_allow_html=True)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
 
