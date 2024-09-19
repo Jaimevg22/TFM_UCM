@@ -6,6 +6,7 @@ import requests
 from pytubefix import YouTube
 import traceback
 from Frontend.FrontendFunctions import update_data, comprobar_estado_clase
+import re
 
 AudioEngine.initialize_directories()
 
@@ -26,7 +27,7 @@ def home_page():
             if video_url and yt:
                 try:
                     yt = YouTube(video_url)
-                    
+                    title = re.sub(r'[^a-zA-Z0-9\s]', '', yt.title)
                     audio = Audio(file_name=yt.title, url=video_url)
                     AudioEngine.initialize_audio(audio)
                     
