@@ -27,7 +27,7 @@ def home_page():
             if video_url and yt:
                 try:
                     yt = YouTube(video_url)
-                    title = re.sub(r'[^a-zA-Z0-9\s]', '', yt.title)
+                    title = re.sub(r'[^\w\s]', '', yt.title)
                     audio = Audio(file_name=title, url=video_url)
                     AudioEngine.initialize_audio(audio)
                     
