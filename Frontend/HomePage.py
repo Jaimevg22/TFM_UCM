@@ -28,7 +28,7 @@ def home_page():
                 try:
                     yt = YouTube(video_url)
                     title = re.sub(r'[^a-zA-Z0-9\s]', '', yt.title)
-                    audio = Audio(file_name=yt.title, url=video_url)
+                    audio = Audio(file_name=title, url=video_url)
                     AudioEngine.initialize_audio(audio)
                     
                     with col2:
