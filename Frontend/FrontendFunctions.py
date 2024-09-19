@@ -3,8 +3,8 @@ from typing import Tuple
 from src.audio import WORK_DIR
 from pytubefix import YouTube
 
-carpeta_data = f"{WORK_DIR}/data"
-carpeta_documentos = f"{WORK_DIR}/data/documents"
+carpeta_data = f"{WORK_DIR}data"
+carpeta_documentos = f"{WORK_DIR}data/documents"
 
 def update_data():
     os.makedirs(carpeta_data, exist_ok=True)

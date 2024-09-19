@@ -5,6 +5,7 @@ from pytubefix import YouTube
 from dataclasses import dataclass, field
 from transformers import pipeline
 from src.TranscriptionFunctions import get_model 
+import torch
 
 WORK_DIR = "./"
 
@@ -107,7 +108,13 @@ class AudioEngine:
                 return_timestamps=False
             )
             
+            # Frees up the GPU memory used by the Whisper V3 model
             result = pipe(audio.audio_path)["text"]
+            del pipe
+            del model
+            del processor
+            torch.cuda.empty_cache()
+
             AudioEngine.update_transcription(audio, result)
 
 
